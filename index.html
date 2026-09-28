@@ -21,14 +21,15 @@
     <button id="soundBtn">SOUND: ON</button>
   </div>
 
-    <!-- 視点操作ボタン（スマホ・マウス用）: 押し続けている間カメラが回る -->
+  <!-- 視点操作ボタン（左下）: 押し続けている間カメラが回る -->
   <div id="camBtns">
     <button data-cam="camYaw" data-v="-1">◀</button>
     <button data-cam="camPitch" data-v="-1">▼</button>
     <button data-cam="camPitch" data-v="1">▲</button>
     <button data-cam="camYaw" data-v="1">▶</button>
   </div>
-    <!-- スマホ用ジャンプボタン: ドラッグで移動しながら押せる -->
+
+  <!-- ジャンプボタン（右下）: ドラッグで移動しながら押せる -->
   <button id="jumpBtn">JUMP</button>
 
   <!-- スタート画面 -->
@@ -36,7 +37,8 @@
     <div class="card">
       <h1>POP CLIMB</h1>
       <p>ブロックを飛び移って、どこまでも高く登ろう！</p>
-      <p class="small">PC: 矢印キーで移動 / スペースでジャンプ<br>Shift+矢印キーで視点回転<br>スマホ: ドラッグで移動 / 右下のJUMPボタンでジャンプ<br>左下のボタンで視点回転</p>      <button id="startBtn">START</button>
+      <p class="small">PC: 矢印キーで移動 / スペースでジャンプ<br>Shift+矢印キーで視点回転<br>スマホ: ドラッグで移動 / 右下のJUMPボタンでジャンプ<br>左下のボタンで視点回転</p>
+      <button id="startBtn">START</button>
     </div>
   </div>
 
@@ -50,7 +52,7 @@
     </div>
   </div>
 
-  <!-- Three.js をCDNから読み込み -->
+  <!-- Three.js をCDNから読み込み（必ず game.js より前に置く） -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="game.js"></script>
 </body>
