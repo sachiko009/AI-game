@@ -261,24 +261,32 @@ window.addEventListener('keydown', e => {
 });
 window.addEventListener('keyup', e => { input.keys[e.code] = false; });
 
-// ドラッグで移動方向、短いタップでジャンプ（マウスにも対応）
+// ドラッグで移動方向を指定。移動中に別の指で画面をタップ、またはJUMPボタンでジャンプ
 let touch = null;
-renderer.domElement.addEventListener('pointerdown', e => {
-  touch = { x: e.clientX, y: e.clientY, t: performance.now(), moved: false };
+const cv = renderer.domElement;
+cv.addEventListener('pointerdown', e => {
+  if (touch) { jump(); return; }              // すでに1本の指で移動中 → 2本目の指のタップはジャンプ
+  cv.setPointerCapture(e.pointerId);          // 指がボタン上に出ても移動操作を続ける
+  touch = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), moved: false };
 });
-renderer.domElement.addEventListener('pointermove', e => {
-  if (!touch) return;
+cv.addEventListener('pointermove', e => {
+  if (!touch || e.pointerId !== touch.id) return;   // 移動用の指だけを見る
   const ox = e.clientX - touch.x, oy = e.clientY - touch.y;
   if (Math.hypot(ox, oy) > 12) touch.moved = true;
-  input.dx = Math.max(-1, Math.min(1, ox / 50));   // 開始点からのずれ = 傾き
+  input.dx = Math.max(-1, Math.min(1, ox / 50));    // 開始点からのずれ = 傾き
   input.dz = Math.max(-1, Math.min(1, oy / 50));
 });
-const endTouch = () => {
-  if (touch && !touch.moved && performance.now() - touch.t < 300) jump();  // ほぼ動かさず離した = タップ
+const endTouch = e => {
+  if (!touch || e.pointerId !== touch.id) return;
+  if (!touch.moved && performance.now() - touch.t < 300) jump();   // 動かさず短く触れた = タップでジャンプ
   touch = null; input.dx = input.dz = 0;
 };
-renderer.domElement.addEventListener('pointerup', endTouch);
-renderer.domElement.addEventListener('pointercancel', endTouch);
+cv.addEventListener('pointerup', endTouch);
+cv.addEventListener('pointercancel', endTouch);
+
+// JUMPボタン: 押した瞬間にジャンプ
+$('jumpBtn').addEventListener('pointerdown', e => { e.preventDefault(); jump(); });
+
 
 // 視点ボタン: 押している間だけ値を入れ、離したら0に戻す
 document.querySelectorAll('#camBtns button').forEach(b => {
