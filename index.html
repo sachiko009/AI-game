@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <!-- スマホで拡大縮小されないようにする -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>POP CLIMB</title>
+  <!-- ドット風フォント -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DotGothic16&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 3D描画エリア -->
+  <div id="game"></div>
+
+  <!-- ゲーム中のHUD（高さ・ベスト・コイン・サウンド切替） -->
+  <div id="hud">
+    <div>HEIGHT <span id="score">0</span></div>
+    <div>BEST <span id="best">0</span></div>
+    <div>COIN <span id="coins">0</span></div>
+    <button id="soundBtn">SOUND: ON</button>
+  </div>
+
+    <!-- 視点操作ボタン（スマホ・マウス用）: 押し続けている間カメラが回る -->
+  <div id="camBtns">
+    <button data-cam="camYaw" data-v="-1">◀</button>
+    <button data-cam="camPitch" data-v="-1">▼</button>
+    <button data-cam="camPitch" data-v="1">▲</button>
+    <button data-cam="camYaw" data-v="1">▶</button>
+  </div>
+
+  <!-- スタート画面 -->
+  <div id="startScreen" class="overlay">
+    <div class="card">
+      <h1>POP CLIMB</h1>
+      <p>ブロックを飛び移って、どこまでも高く登ろう！</p>
+            <p class="small">PC: 矢印キーで移動 / スペースでジャンプ<br>Shift+矢印キーで視点回転<br>スマホ: ドラッグで移動 / タップでジャンプ<br>右下のボタンで視点回転</p>
+      <button id="startBtn">START</button>
+    </div>
+  </div>
+
+  <!-- リザルト画面 -->
+  <div id="resultScreen" class="overlay hidden">
+    <div class="card">
+      <h1>GAME OVER</h1>
+      <p>HEIGHT: <b id="rScore">0</b></p>
+      <p>BEST: <b id="rBest">0</b></p>
+      <button id="retryBtn">RETRY</button>
+    </div>
+  </div>
+
+  <!-- Three.js をCDNから読み込み -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
